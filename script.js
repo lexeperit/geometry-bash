@@ -108,15 +108,31 @@ const gameSteps = [
         isTraining: true,
         showShape: true
     },
+   {
+       title: 'Nivel 7 - "Espiral"',
+      instruction: '¡Vámos lo estás haciendo bien, ahora intenta con una <strong>ESPIRAL</strong>.',
+      expectedPattern: geometricShapes.spiral.pattern,
+      shape: 'spiral',
+      isTraining:true,
+      showShape:true
+    },
     {
-        title: 'Nivel 7 - "Combinación Libre"',
+        title: 'Nivel 8 - "Cuadrado Doble"',
+        instruction: '¡Probemos si recuerdas los cuadrados... <strong>CUADRADO DOBLE</strong>.',
+        expectedPattern: geometricShapes.doubleSquare.pattern,
+        shape: 'doblesquare',
+        isTraining:true,
+        showShape:true
+    },
+    {
+        title: 'Nivel 9 - "Combinación Libre"',
         instruction: '¡Ahora es tu turno! Combina <strong>DOS O MÁS FIGURAS</strong> que aprendiste.<br>Ejemplo: Cuadrado + Triángulo, o inventa tu propio patrón.<br><strong>Objetivo: mínimo 10 dígitos.</strong>',
         minLength: 10,
         isTraining: false,
         showShape: false
     },
     {
-        title: 'Nivel 8 - "Creación Avanzada"',
+        title: 'Nivel 11 - "Creación Avanzada"',
         instruction: 'Excelente progreso. Ahora crea un patrón más complejo.<br><strong>Objetivo: mínimo 14 dígitos.</strong><br>Piensa en movimientos únicos y memorables.',
         minLength: 14,
         isTraining: false,
