@@ -14,17 +14,17 @@ const gameState = {
     isVerifying: false
 };
 
-// Definición de figuras geométricas
+// Definición de figuras geométricas - PATRONES CORREGIDOS
 const geometricShapes = {
     square: {
         name: 'Cuadrado',
-        pattern: ['1', '3', '9', '7'],
-        description: 'Comienza en la esquina superior izquierda y dibuja un cuadrado'
+        pattern: ['1', '3', '9', '7', '1'],
+        description: 'Comienza en la esquina superior izquierda y dibuja un cuadrado cerrando al final'
     },
     triangle: {
         name: 'Triángulo',
-        pattern: ['2', '7', '3'],
-        description: 'Dibuja un triángulo comenzando desde arriba'
+        pattern: ['2', '7', '3', '2'],
+        description: 'Dibuja un triángulo comenzando desde arriba y ciérralo'
     },
     line: {
         name: 'Línea Vertical',
@@ -34,27 +34,27 @@ const geometricShapes = {
     zigzag: {
         name: 'Zig-Zag',
         pattern: ['1', '5', '9', '5', '1'],
-        description: 'Un movimiento en zig-zag desde la esquina'
+        description: 'Un movimiento en zig-zag que cierra en el punto de inicio'
     },
     cross: {
         name: 'Cruz',
-        pattern: ['2', '5', '8', '5', '4', '5', '6'],
-        description: 'Dibuja una cruz perfecta en el teclado'
+        pattern: ['2', '5', '8', '5', '4', '5', '6', '5'],
+        description: 'Dibuja una cruz simétrica volviendo al centro'
     },
     diamond: {
         name: 'Rombo',
         pattern: ['2', '4', '8', '6', '2'],
-        description: 'Un rombo centrado en el teclado'
+        description: 'Un rombo centrado que se cierra correctamente'
     },
     spiral: {
         name: 'Espiral',
-        pattern: ['5', '6', '9', '8', '7', '4', '1', '2'],
-        description: 'Una espiral desde el centro hacia afuera'
+        pattern: ['5', '6', '9', '8', '7', '4', '1', '2', '3', '5'],
+        description: 'Una espiral desde el centro hacia afuera y de vuelta al centro'
     },
     doubleSquare: {
         name: 'Cuadrado Doble',
-        pattern: ['1', '3', '9', '7', '1', '2', '3'],
-        description: 'Un cuadrado seguido de una extensión'
+        pattern: ['1', '3', '9', '7', '1', '2', '3', '6', '9'],
+        description: 'Dos cuadrados conectados en movimiento continuo'
     }
 };
 
@@ -94,7 +94,7 @@ const gameSteps = [
     },
     {
         title: 'Nivel 5 - "La Cruz"',
-        instruction: 'Ahora una figura más compleja: la <strong>CRUZ</strong>. Nota que pasas por el centro varias veces.',
+        instruction: 'Ahora una figura más compleja: la <strong>CRUZ</strong>. Nota que pasas por el centro varias veces y terminas en el centro.',
         expectedPattern: geometricShapes.cross.pattern,
         shape: 'cross',
         isTraining: true,
@@ -110,7 +110,7 @@ const gameSteps = [
     },
    {
        title: 'Nivel 7 - "Espiral"',
-      instruction: '¡Vámos lo estás haciendo bien, ahora intenta con una <strong>ESPIRAL</strong>.',
+      instruction: '¡Vámos! Lo estás haciendo bien, ahora intenta con una <strong>ESPIRAL</strong> desde el centro hacia afuera.',
       expectedPattern: geometricShapes.spiral.pattern,
       shape: 'spiral',
       isTraining:true,
@@ -118,9 +118,9 @@ const gameSteps = [
     },
     {
         title: 'Nivel 8 - "Cuadrado Doble"',
-        instruction: '¡Probemos si recuerdas los cuadrados... <strong>CUADRADO DOBLE</strong>.',
+        instruction: '¡Probemos si recuerdas los cuadrados... ahora dibuja un <strong>CUADRADO DOBLE</strong>.',
         expectedPattern: geometricShapes.doubleSquare.pattern,
-        shape: 'doblesquare',
+        shape: 'doubleSquare',
         isTraining:true,
         showShape:true
     },
