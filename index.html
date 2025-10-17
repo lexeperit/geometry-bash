@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Geometry Bash: Aprende a crear contraseñas seguras usando patrones geométricos. Un proyecto educativo del CCM-UNAM y ADRC.">
+    <meta name="description" content="Geometry Bash: Aprende a crear contraseñas seguras usando patrones geométricos. Un proyecto educativo de ADRC.">
     <title>Geometry Bash: Desafío de Contraseñas Geométricas</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,12 +11,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Sección 1: La Misión -->
-    <section id="mission" class="section mission-section">
+    <!-- Sección de Bienvenida -->
+    <section id="welcome" class="section welcome-section">
         <div class="cyber-grid"></div>
         <div class="container">
             <div class="logo-container">
-                <div class="logo-placeholder">CCM-UNAM</div>
                 <div class="logo-placeholder">ADRC</div>
             </div>
 
@@ -32,53 +31,26 @@
                 <span>Descubre cómo la geometría puede ser tu mejor aliada.</span>
             </div>
 
-            <div class="info-cards">
-                <div class="info-card danger-card">
-                    <div class="card-icon">⚠️</div>
-                    <h3>El Riesgo</h3>
-                    <p>
-                        Contraseñas como <span class="weak-password">"123456"</span> o
-                        <span class="weak-password">"password"</span> son inútiles.
-                        Los ataques de fuerza bruta pueden probar <strong>millones de combinaciones por segundo</strong>,
-                        descubriendo contraseñas simples en menos de un parpadeo.
-                    </p>
-                </div>
-
-                <div class="info-card solution-card">
-                    <div class="card-icon">🧮</div>
-                    <h3>La Solución Matemática</h3>
-                    <p>
-                        En lugar de memorizar números, vamos a <strong>memorizar formas</strong>.
-                        Tu cerebro es increíble para recordar patrones y movimientos.
-                        Usaremos el <span class="highlight">poder de la geometría</span> para crear
-                        claves casi imposibles de romper, ¡pero fáciles de recordar para ti!
-                    </p>
-                </div>
-
-                <div class="info-card creators-card">
-                    <div class="card-icon">👨‍🔬</div>
-                    <h3>Los Creadores</h3>
-                    <p class="creators">
-                        <strong>León René Hinojosa Hierro</strong><br>
-                        <strong>Leonardo David Saucedo León</strong>
-                    </p>
-                    <p class="institutions">
-                        Centro de Ciencias Matemáticas - UNAM<br>
-                        Asociación para la Divulgación Recreativa de las Ciencias
-                    </p>
-                </div>
+            <div class="creators-info">
+                <p class="creators">
+                    <strong>León René Hinojosa Hierro</strong><br>
+                    <strong>Leonardo David Saucedo León</strong>
+                </p>
+                <p class="institutions">
+                    Asociación para la Divulgación Recreativa de las Ciencias
+                </p>
             </div>
 
             <button id="startBtn" class="cta-button">
                 <span class="button-content">
-                    ¡Aceptar el Reto! 🚀
+                    ¡Comenzar el Entrenamiento! 🚀
                 </span>
                 <span class="button-glow"></span>
             </button>
         </div>
     </section>
 
-    <!-- Sección 2: El Desafío -->
+    <!-- Sección del Desafío Interactivo -->
     <section id="challenge" class="section challenge-section">
         <div class="cyber-grid"></div>
         <div class="container">
@@ -89,6 +61,13 @@
                 <div id="instructions" class="instructions">
                     <h3 id="instructionTitle">Preparando la misión...</h3>
                     <p id="instructionText">Cargando sistema de seguridad...</p>
+                </div>
+
+                <!-- Visualización de la figura geométrica objetivo -->
+                <div id="shapeGuide" class="shape-guide" style="display: none;">
+                    <h4>Figura Objetivo:</h4>
+                    <canvas id="shapeCanvas"></canvas>
+                    <p id="shapeName">Cuadrado</p>
                 </div>
 
                 <!-- Área principal del juego -->
@@ -181,13 +160,398 @@
                         </ul>
                     </div>
 
-                    <button id="restartBtn" class="cta-button">
+                    <button id="exploreTheoryBtn" class="cta-button">
+                        <span class="button-content">
+                            📚 Explorar la Teoría
+                        </span>
+                        <span class="button-glow"></span>
+                    </button>
+
+                    <button id="restartBtn" class="cta-button" style="margin-top: 1rem;">
                         <span class="button-content">
                             🔄 Intentar Nuevamente
                         </span>
                         <span class="button-glow"></span>
                     </button>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Separador estilo TRON -->
+    <div class="tron-divider">
+        <div class="tron-line"></div>
+        <div class="tron-circuit">
+            <div class="circuit-node"></div>
+            <div class="circuit-node"></div>
+            <div class="circuit-node"></div>
+            <div class="circuit-pulse"></div>
+        </div>
+        <div class="tron-line"></div>
+    </div>
+
+    <!-- Sección de Teoría -->
+    <section id="theory" class="section theory-section">
+        <div class="cyber-grid"></div>
+        <div class="container">
+            <h2 class="section-title">La Ciencia Detrás de las Contraseñas</h2>
+
+            <!-- Introducción -->
+            <div class="theory-block intro-block">
+                <h3>🔐 El Problema de la Seguridad Digital</h3>
+                <p>
+                    En la era digital, nuestras vidas están protegidas por contraseñas. Desde cuentas bancarias hasta redes sociales,
+                    cada aspecto de nuestra identidad digital depende de una barrera: <strong>una cadena de caracteres</strong>.
+                    Pero, ¿qué tan segura es realmente tu contraseña?
+                </p>
+            </div>
+
+            <!-- Historia -->
+            <div class="theory-block history-block">
+                <h3>📜 Un Poco de Historia</h3>
+
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-year">1961</div>
+                        <div class="timeline-content">
+                            <h4>El Nacimiento de las Contraseñas</h4>
+                            <p>
+                                En el <strong>MIT</strong>, Fernando Corbató implementó el primer sistema de contraseñas en el
+                                <em>Compatible Time-Sharing System (CTSS)</em>. El objetivo era simple: permitir que múltiples usuarios
+                                compartieran una computadora sin acceder a los archivos ajenos.
+                            </p>
+                            <blockquote>
+                                "Necesitábamos una forma de identificar a cada usuario sin depender del honor."<br>
+                                <cite>— Fernando Corbató, pionero de las contraseñas</cite>
+                            </blockquote>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-year">1976</div>
+                        <div class="timeline-content">
+                            <h4>Criptografía Moderna</h4>
+                            <p>
+                                Whitfield Diffie y Martin Hellman publicaron <em>"New Directions in Cryptography"</em>,
+                                estableciendo los fundamentos de la criptografía de clave pública y revolucionando
+                                la forma en que protegemos información.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-year">1988</div>
+                        <div class="timeline-content">
+                            <h4>El Primer Gusano de Internet</h4>
+                            <p>
+                                El <strong>Morris Worm</strong> infectó aproximadamente el 10% de las computadoras conectadas a Internet,
+                                explotando contraseñas débiles. Este evento demostró la vulnerabilidad de los sistemas mal protegidos.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-year">2012</div>
+                        <div class="timeline-content">
+                            <h4>Las Filtraciones Masivas</h4>
+                            <p>
+                                LinkedIn sufre una filtración de <strong>6.5 millones de contraseñas</strong>. Los análisis revelaron
+                                que las contraseñas más comunes eran: "123456", "password", "linkedin". La era de los ataques masivos había comenzado.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-year">2020s</div>
+                        <div class="timeline-content">
+                            <h4>La Era de la IA y la Biometría</h4>
+                            <p>
+                                Con la llegada de la inteligencia artificial, los ataques se vuelven más sofisticados.
+                                Las contraseñas tradicionales evolucionan hacia sistemas multi-factor que combinan
+                                algo que <em>sabes</em>, algo que <em>tienes</em> y algo que <em>eres</em>.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Matemáticas -->
+            <div class="theory-block math-block">
+                <h3>🧮 Las Matemáticas de las Contraseñas</h3>
+
+                <h4>Combinatoria: El Espacio de Búsqueda</h4>
+                <p>
+                    La seguridad de una contraseña se basa en un principio matemático simple:
+                    <strong>combinatoria</strong>. Cuantas más combinaciones posibles existan,
+                    más tiempo tomará descifrarla mediante fuerza bruta.
+                </p>
+
+                <div class="formula-box">
+                    <h5>Fórmula del Espacio de Búsqueda</h5>
+                    <div class="formula">
+                        N = C<sup>L</sup>
+                    </div>
+                    <p class="formula-legend">
+                        Donde:<br>
+                        <strong>N</strong> = Número total de combinaciones posibles<br>
+                        <strong>C</strong> = Número de caracteres en el alfabeto<br>
+                        <strong>L</strong> = Longitud de la contraseña
+                    </p>
+                </div>
+
+                <h4>Ejemplo Práctico</h4>
+                <div class="example-grid">
+                    <div class="example-card">
+                        <h5>Solo Números (0-9)</h5>
+                        <p>C = 10</p>
+                        <ul>
+                            <li>4 dígitos: 10<sup>4</sup> = <strong>10,000</strong> combinaciones</li>
+                            <li>6 dígitos: 10<sup>6</sup> = <strong>1,000,000</strong> combinaciones</li>
+                            <li>8 dígitos: 10<sup>8</sup> = <strong>100,000,000</strong> combinaciones</li>
+                        </ul>
+                    </div>
+
+                    <div class="example-card">
+                        <h5>Letras Minúsculas (a-z)</h5>
+                        <p>C = 26</p>
+                        <ul>
+                            <li>4 caracteres: 26<sup>4</sup> = <strong>456,976</strong> combinaciones</li>
+                            <li>8 caracteres: 26<sup>8</sup> = <strong>208 billones</strong> combinaciones</li>
+                        </ul>
+                    </div>
+
+                    <div class="example-card">
+                        <h5>Mezcla Completa</h5>
+                        <p>C = 95 (letras, números, símbolos)</p>
+                        <ul>
+                            <li>8 caracteres: 95<sup>8</sup> = <strong>6.6 cuatrillones</strong> combinaciones</li>
+                            <li>12 caracteres: 95<sup>12</sup> = <strong>5.4 × 10<sup>23</sup></strong> combinaciones</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h4>Ataques de Fuerza Bruta</h4>
+                <p>
+                    Un ataque de fuerza bruta prueba sistemáticamente todas las combinaciones posibles.
+                    Con hardware moderno, un atacante puede probar:
+                </p>
+                <ul class="tech-specs">
+                    <li><strong>CPU convencional</strong>: ~1 millón de intentos/segundo</li>
+                    <li><strong>GPU moderna</strong>: ~100 mil millones de intentos/segundo</li>
+                    <li><strong>Cluster especializado</strong>: ~100 billones de intentos/segundo</li>
+                </ul>
+
+                <div class="calculation-box">
+                    <h5>Cálculo del Tiempo de Descifrado</h5>
+                    <div class="formula">
+                        T = N / V
+                    </div>
+                    <p class="formula-legend">
+                        Donde:<br>
+                        <strong>T</strong> = Tiempo necesario<br>
+                        <strong>N</strong> = Número de combinaciones<br>
+                        <strong>V</strong> = Velocidad de ataque (intentos/segundo)
+                    </p>
+
+                    <h6>Ejemplo: Contraseña Numérica de 8 Dígitos</h6>
+                    <p>
+                        N = 10<sup>8</sup> = 100,000,000<br>
+                        V = 1,000,000 intentos/segundo<br>
+                        <strong>T = 100 segundos ≈ 1.7 minutos</strong>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Neurociencia -->
+            <div class="theory-block neuro-block">
+                <h3>🧠 La Neurociencia de la Memoria</h3>
+
+                <h4>¿Por Qué Recordamos Patrones Mejor que Números?</h4>
+                <p>
+                    La respuesta está en cómo funciona nuestro cerebro. Existen diferentes tipos de memoria,
+                    y cada una procesa información de manera distinta:
+                </p>
+
+                <div class="memory-types">
+                    <div class="memory-card">
+                        <h5>🔢 Memoria Declarativa (Explícita)</h5>
+                        <p>
+                            Se encarga de recordar <em>hechos y eventos</em>. Cuando intentas memorizar
+                            la secuencia "1397", estás usando esta memoria. Es propensa al olvido porque
+                            requiere <strong>ensayo consciente</strong>.
+                        </p>
+                        <p class="memory-capacity">
+                            <strong>Capacidad promedio:</strong> 7 ± 2 elementos (Ley de Miller)
+                        </p>
+                    </div>
+
+                    <div class="memory-card">
+                        <h5>🎯 Memoria Procedimental (Implícita)</h5>
+                        <p>
+                            Se encarga de recordar <em>cómo hacer cosas</em>. Cuando dibujas un cuadrado
+                            en el teclado, estás creando un <strong>esquema motor</strong>. Esta memoria
+                            es más robusta y duradera.
+                        </p>
+                        <p class="memory-capacity">
+                            <strong>Ventaja:</strong> Se automatiza con la práctica
+                        </p>
+                    </div>
+
+                    <div class="memory-card">
+                        <h5>🖼️ Memoria Visual-Espacial</h5>
+                        <p>
+                            Procesa información sobre posiciones y formas. Tu cerebro tiene una capacidad
+                            extraordinaria para recordar <strong>patrones visuales y movimientos espaciales</strong>.
+                        </p>
+                        <p class="memory-capacity">
+                            <strong>Ventaja:</strong> Procesamiento paralelo y automático
+                        </p>
+                    </div>
+                </div>
+
+                <h4>El Efecto de la Práctica Distribuida</h4>
+                <p>
+                    Los estudios en neurociencia demuestran que la <em>práctica distribuida</em> (repetir
+                    un patrón en múltiples sesiones) es más efectiva que la <em>práctica masiva</em>
+                    (repetir muchas veces seguidas).
+                </p>
+                <blockquote>
+                    "El cerebro consolida mejor los patrones motores durante el sueño. Practicar un patrón
+                    geométrico antes de dormir puede mejorar significativamente su retención."<br>
+                    <cite>— Investigaciones en consolidación de memoria, Nature Neuroscience (2018)</cite>
+                </blockquote>
+            </div>
+
+            <!-- Datos Curiosos -->
+            <div class="theory-block fun-facts-block">
+                <h3>🎲 Datos Curiosos</h3>
+
+                <div class="facts-grid">
+                    <div class="fact-card">
+                        <div class="fact-icon">🔑</div>
+                        <h5>La Contraseña Más Común</h5>
+                        <p>
+                            Según NordPass (2024), la contraseña más común sigue siendo <strong>"123456"</strong>,
+                            usada por más de 100 millones de cuentas. Puede descifrarse en <strong>menos de 1 segundo</strong>.
+                        </p>
+                    </div>
+
+                    <div class="fact-card">
+                        <div class="fact-icon">⏱️</div>
+                        <h5>El Récord de Descifrado</h5>
+                        <p>
+                            En 2012, un cluster de 25 GPUs descifró una contraseña de Windows de 8 caracteres
+                            (mayúsculas y minúsculas) en <strong>menos de 6 horas</strong>.
+                        </p>
+                    </div>
+
+                    <div class="fact-card">
+                        <div class="fact-icon">🎭</div>
+                        <h5>Patrones en Smartphones</h5>
+                        <p>
+                            El 44% de los patrones de desbloqueo en Android comienzan en la esquina superior izquierda.
+                            ¡La geometría ya está en tu vida!
+                        </p>
+                    </div>
+
+                    <div class="fact-card">
+                        <div class="fact-icon">🌍</div>
+                        <h5>Contraseñas Culturales</h5>
+                        <p>
+                            En China, "password" se traduce como "密码" (mìmǎ), y la contraseña más común es
+                            <strong>"123456789"</strong>. La psicología cultural influye en nuestras elecciones.
+                        </p>
+                    </div>
+
+                    <div class="fact-card">
+                        <div class="fact-icon">🧬</div>
+                        <h5>Tu Iris como Contraseña</h5>
+                        <p>
+                            El patrón de tu iris tiene aproximadamente <strong>266 características únicas</strong>,
+                            generando 2<sup>266</sup> combinaciones posibles. ¡Es más seguro que cualquier contraseña!
+                        </p>
+                    </div>
+
+                    <div class="fact-card">
+                        <div class="fact-icon">💰</div>
+                        <h5>El Costo del Hackeo</h5>
+                        <p>
+                            IBM estima que el costo promedio de una brecha de datos en 2023 fue de
+                            <strong>$4.45 millones de dólares</strong>. La seguridad importa.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Referencias -->
+            <div class="theory-block references-block">
+                <h3>📚 Referencias y Lecturas Recomendadas</h3>
+
+                <h4>Artículos Científicos</h4>
+                <ul class="references-list">
+                    <li>
+                        Bonneau, J., et al. (2012). <em>"The Quest to Replace Passwords: A Framework for Comparative Evaluation of Web Authentication Schemes"</em>.
+                        IEEE Symposium on Security and Privacy.
+                        <a href="https://www.cl.cam.ac.uk/~jcb82/doc/BBLSMT12-password-replacement.pdf" target="_blank" rel="noopener">[PDF]</a>
+                    </li>
+                    <li>
+                        Ur, B., et al. (2015). <em>"Measuring Real-World Accuracies and Biases in Modeling Password Guessability"</em>.
+                        USENIX Security Symposium.
+                        <a href="https://www.usenix.org/conference/usenixsecurity15/technical-sessions/presentation/ur" target="_blank" rel="noopener">[Link]</a>
+                    </li>
+                    <li>
+                        Florencio, D., & Herley, C. (2007). <em>"A Large-Scale Study of Web Password Habits"</em>.
+                        Microsoft Research.
+                        <a href="https://www.microsoft.com/en-us/research/publication/a-large-scale-study-of-web-password-habits/" target="_blank" rel="noopener">[Link]</a>
+                    </li>
+                </ul>
+
+                <h4>Libros</h4>
+                <ul class="references-list">
+                    <li>
+                        Schneier, B. (2015). <em>"Data and Goliath: The Hidden Battles to Collect Your Data and Control Your World"</em>.
+                        W. W. Norton & Company.
+                    </li>
+                    <li>
+                        Mitnick, K. D., & Simon, W. L. (2011). <em>"The Art of Deception: Controlling the Human Element of Security"</em>.
+                        Wiley.
+                    </li>
+                </ul>
+
+                <h4>Recursos en Línea</h4>
+                <ul class="references-list">
+                    <li>
+                        <strong>Have I Been Pwned</strong>: Verifica si tus contraseñas han sido filtradas.
+                        <a href="https://haveibeenpwned.com/" target="_blank" rel="noopener">haveibeenpwned.com</a>
+                    </li>
+                    <li>
+                        <strong>Password Strength Checker</strong> (Kaspersky): Prueba la fortaleza de tus contraseñas.
+                        <a href="https://password.kaspersky.com/" target="_blank" rel="noopener">password.kaspersky.com</a>
+                    </li>
+                    <li>
+                        <strong>NIST Password Guidelines</strong>: Recomendaciones oficiales del gobierno de EE.UU.
+                        <a href="https://pages.nist.gov/800-63-3/" target="_blank" rel="noopener">NIST SP 800-63B</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Conclusión Final -->
+            <div class="theory-block conclusion-block">
+                <h3>🎯 Conclusión</h3>
+                <p>
+                    La geometría no es solo una herramienta matemática abstracta; es una forma natural en que
+                    nuestro cerebro procesa y almacena información. Al combinar <strong>patrones visuales</strong>
+                    con <strong>memoria motora</strong>, creamos contraseñas que son:
+                </p>
+                <ul>
+                    <li>✅ <strong>Más fáciles de recordar</strong> (memoria procedimental)</li>
+                    <li>✅ <strong>Más difíciles de adivinar</strong> (alta entropía)</li>
+                    <li>✅ <strong>Más seguras</strong> (longitud y complejidad)</li>
+                </ul>
+                <p>
+                    La próxima vez que crees una contraseña, no pienses en letras y números aleatorios.
+                    <strong>Piensa en movimientos. Piensa en formas. Piensa en geometría.</strong>
+                </p>
             </div>
         </div>
     </section>

@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nInitial commit: Geometry Bash - Interactive Password Security Game\n\n🎮 Geometry Bash is an educational web application that teaches children and teenagers \nhow to create strong passwords using geometric patterns.\n\nFeatures:\n- Interactive numpad with neon visual effects\n- Real-time password strength meter\n- Geometric pattern drawing with Canvas API\n- 3-step game flow: Training → Creation → Verification\n- Cyberpunk dark mode design\n- 100% responsive (mobile, tablet, desktop)\n- No dependencies (vanilla HTML/CSS/JS)\n\nDeveloped for CCM-UNAM & ADRC science outreach workshop.\n\n🚀 Ready for GitHub Pages deployment\nEOF\n)\")",
+      "Bash(git remote add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push)"
     ],
     "deny": [],
     "ask": []

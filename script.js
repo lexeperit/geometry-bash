@@ -1,5 +1,5 @@
 /* ========================================
-   GEOMETRY BASH - JUEGO INTERACTIVO
+   GEOMETRY BASH - JUEGO INTERACTIVO V2
    ======================================== */
 
 // Estado del juego
@@ -14,29 +14,128 @@ const gameState = {
     isVerifying: false
 };
 
-// Pasos del juego
+// Definición de figuras geométricas
+const geometricShapes = {
+    square: {
+        name: 'Cuadrado',
+        pattern: ['1', '3', '9', '7'],
+        description: 'Comienza en la esquina superior izquierda y dibuja un cuadrado'
+    },
+    triangle: {
+        name: 'Triángulo',
+        pattern: ['2', '7', '3'],
+        description: 'Dibuja un triángulo comenzando desde arriba'
+    },
+    line: {
+        name: 'Línea Vertical',
+        pattern: ['2', '5', '8'],
+        description: 'Una línea recta de arriba hacia abajo por el centro'
+    },
+    zigzag: {
+        name: 'Zig-Zag',
+        pattern: ['1', '5', '9', '5', '1'],
+        description: 'Un movimiento en zig-zag desde la esquina'
+    },
+    cross: {
+        name: 'Cruz',
+        pattern: ['2', '5', '8', '5', '4', '5', '6'],
+        description: 'Dibuja una cruz perfecta en el teclado'
+    },
+    diamond: {
+        name: 'Rombo',
+        pattern: ['2', '4', '8', '6', '2'],
+        description: 'Un rombo centrado en el teclado'
+    },
+    spiral: {
+        name: 'Espiral',
+        pattern: ['5', '6', '9', '8', '7', '4', '1', '2'],
+        description: 'Una espiral desde el centro hacia afuera'
+    },
+    doubleSquare: {
+        name: 'Cuadrado Doble',
+        pattern: ['1', '3', '9', '7', '1', '2', '3'],
+        description: 'Un cuadrado seguido de una extensión'
+    }
+};
+
+// Pasos del juego ampliados
 const gameSteps = [
     {
-        title: 'Entrenamiento - "Dibuja la Geometría"',
-        instruction: 'Comencemos con algo simple. Dibuja un <strong>CUADRADO</strong> en el teclado usando las teclas <span class="highlight">1-3-9-7</span>.',
-        expectedPattern: ['1', '3', '9', '7'],
-        isTraining: true
+        title: 'Nivel 1 - "El Cuadrado Básico"',
+        instruction: 'Comencemos con algo simple. Dibuja un <strong>CUADRADO</strong> en el teclado.<br>Sigue el patrón mostrado arriba.',
+        expectedPattern: geometricShapes.square.pattern,
+        shape: 'square',
+        isTraining: true,
+        showShape: true
     },
     {
-        title: 'Creación - "Diseña tu Patrón Secreto"',
-        instruction: '¡Ahora es tu turno! Crea tu propio patrón secreto. Combina formas, líneas o movimientos que solo tú conozcas. <strong>Tu misión: crear una contraseña de al menos 12 caracteres.</strong>',
-        minLength: 12,
-        isTraining: false
+        title: 'Nivel 2 - "El Triángulo"',
+        instruction: '¡Excelente! Ahora dibuja un <strong>TRIÁNGULO</strong>.<br>Observa la figura objetivo y replica el movimiento.',
+        expectedPattern: geometricShapes.triangle.pattern,
+        shape: 'triangle',
+        isTraining: true,
+        showShape: true
     },
     {
-        title: 'La Prueba de Memoria - "Confirma tu Habilidad"',
-        instruction: '¡Excelente patrón! Ahora, la prueba final. ¿Puedes recordarlo? <strong>Repite tu secuencia de movimientos.</strong>',
-        isVerifying: true
+        title: 'Nivel 3 - "La Línea"',
+        instruction: 'Perfecto. Ahora algo más simple: una <strong>LÍNEA VERTICAL</strong> por el centro.',
+        expectedPattern: geometricShapes.line.pattern,
+        shape: 'line',
+        isTraining: true,
+        showShape: true
+    },
+    {
+        title: 'Nivel 4 - "El Zig-Zag"',
+        instruction: 'Aumentamos la complejidad. Dibuja un <strong>ZIG-ZAG</strong> en diagonal.',
+        expectedPattern: geometricShapes.zigzag.pattern,
+        shape: 'zigzag',
+        isTraining: true,
+        showShape: true
+    },
+    {
+        title: 'Nivel 5 - "La Cruz"',
+        instruction: 'Ahora una figura más compleja: la <strong>CRUZ</strong>. Nota que pasas por el centro varias veces.',
+        expectedPattern: geometricShapes.cross.pattern,
+        shape: 'cross',
+        isTraining: true,
+        showShape: true
+    },
+    {
+        title: 'Nivel 6 - "El Rombo"',
+        instruction: '¡Casi experto! Dibuja un <strong>ROMBO</strong> perfecto.',
+        expectedPattern: geometricShapes.diamond.pattern,
+        shape: 'diamond',
+        isTraining: true,
+        showShape: true
+    },
+    {
+        title: 'Nivel 7 - "Combinación Libre"',
+        instruction: '¡Ahora es tu turno! Combina <strong>DOS O MÁS FIGURAS</strong> que aprendiste.<br>Ejemplo: Cuadrado + Triángulo, o inventa tu propio patrón.<br><strong>Objetivo: mínimo 10 dígitos.</strong>',
+        minLength: 10,
+        isTraining: false,
+        showShape: false
+    },
+    {
+        title: 'Nivel 8 - "Creación Avanzada"',
+        instruction: 'Excelente progreso. Ahora crea un patrón más complejo.<br><strong>Objetivo: mínimo 14 dígitos.</strong><br>Piensa en movimientos únicos y memorables.',
+        minLength: 14,
+        isTraining: false,
+        showShape: false
+    },
+    {
+        title: 'Prueba Final - "Confirma tu Memoria"',
+        instruction: '¡El momento de la verdad! El tablero será borrado.<br><strong>Reproduce tu patrón avanzado de memoria.</strong>',
+        isVerifying: true,
+        showShape: false
     }
 ];
 
+// Audio Context para efectos de sonido
+let audioContext;
+let soundEnabled = true;
+
 // Configuración del canvas para dibujar patrones
-let canvas, ctx;
+let canvas, ctx, shapeCanvas, shapeCtx;
 let numpadKeys = {};
 
 // Tiempos de descifrado (basados en ataques de fuerza bruta, solo números)
@@ -46,28 +145,121 @@ const crackTimes = [
     { length: 2, time: 'Instantáneo', level: 10 },
     { length: 3, time: 'Instantáneo', level: 15 },
     { length: 4, time: 'Instantáneo', level: 20 },
-    { length: 5, time: '0.1 segundos', level: 25 },
-    { length: 6, time: '4 segundos', level: 30 },
-    { length: 7, time: '37 segundos', level: 35 },
-    { length: 8, time: '6 minutos', level: 40 },
-    { length: 9, time: '1 hora', level: 50 },
-    { length: 10, time: '10 horas', level: 60 },
-    { length: 11, time: '4 días', level: 70 },
-    { length: 12, time: '42 días', level: 80 },
-    { length: 13, time: '1 año', level: 85 },
-    { length: 14, time: '11 años', level: 90 },
-    { length: 15, time: '114 años', level: 95 }
+    { length: 5, time: '0.1 segundos', level: 22 },
+    { length: 6, time: '4 segundos', level: 25 },
+    { length: 7, time: '37 segundos', level: 30 },
+    { length: 8, time: '6 minutos', level: 35 },
+    { length: 9, time: '1 hora', level: 40 },
+    { length: 10, time: '10 horas', level: 50 },
+    { length: 11, time: '4 días', level: 58 },
+    { length: 12, time: '42 días', level: 65 },
+    { length: 13, time: '1 año', level: 72 },
+    { length: 14, time: '11 años', level: 80 },
+    { length: 15, time: '114 años', level: 87 },
+    { length: 16, time: '1,140 años', level: 92 },
+    { length: 17, time: '11,400 años', level: 95 },
+    { length: 18, time: '114,000 años', level: 98 },
+    { length: 19, time: '1.14 millones de años', level: 99 },
+    { length: 20, time: '11.4 millones de años', level: 100 }
 ];
 
 /* ========================================
    INICIALIZACIÓN
    ======================================== */
 document.addEventListener('DOMContentLoaded', () => {
+    initializeAudio();
     initializeCanvas();
+    initializeShapeCanvas();
     initializeNumpad();
     initializeButtons();
     updateInstructions();
 });
+
+function initializeAudio() {
+    try {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        console.log('Audio inicializado correctamente');
+    } catch (e) {
+        console.warn('Web Audio API no soportada', e);
+        soundEnabled = false;
+    }
+}
+
+function playKeySound(frequency = 440) {
+    if (!soundEnabled || !audioContext) return;
+
+    try {
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+
+        oscillator.frequency.value = frequency;
+        oscillator.type = 'sine';
+
+        gainNode.gain.setValueAtTime(0.15, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.15);
+
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + 0.15);
+    } catch (e) {
+        console.warn('Error reproduciendo sonido', e);
+    }
+}
+
+function playSuccessSound() {
+    if (!soundEnabled || !audioContext) return;
+
+    try {
+        const frequencies = [523.25, 659.25, 783.99]; // C5, E5, G5 (acorde mayor)
+
+        frequencies.forEach((freq, index) => {
+            setTimeout(() => {
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+
+                oscillator.frequency.value = freq;
+                oscillator.type = 'sine';
+
+                gainNode.gain.setValueAtTime(0.15, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.3);
+            }, index * 100);
+        });
+    } catch (e) {
+        console.warn('Error reproduciendo sonido de éxito', e);
+    }
+}
+
+function playErrorSound() {
+    if (!soundEnabled || !audioContext) return;
+
+    try {
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+
+        oscillator.frequency.setValueAtTime(200, audioContext.currentTime);
+        oscillator.frequency.exponentialRampToValueAtTime(100, audioContext.currentTime + 0.2);
+        oscillator.type = 'sawtooth';
+
+        gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + 0.2);
+    } catch (e) {
+        console.warn('Error reproduciendo sonido de error', e);
+    }
+}
 
 function initializeCanvas() {
     canvas = document.getElementById('patternCanvas');
@@ -76,6 +268,14 @@ function initializeCanvas() {
     // Configurar tamaño del canvas
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
+}
+
+function initializeShapeCanvas() {
+    shapeCanvas = document.getElementById('shapeCanvas');
+    shapeCtx = shapeCanvas.getContext('2d');
+
+    shapeCanvas.width = 200;
+    shapeCanvas.height = 200;
 }
 
 function resizeCanvas() {
@@ -123,7 +323,7 @@ function updateKeyPositions() {
 }
 
 function initializeButtons() {
-    // Botón "Aceptar el reto"
+    // Botón "Comenzar entrenamiento"
     document.getElementById('startBtn').addEventListener('click', () => {
         document.getElementById('challenge').scrollIntoView({ behavior: 'smooth' });
     });
@@ -136,6 +336,75 @@ function initializeButtons() {
 
     // Botón "Reintentar"
     document.getElementById('restartBtn').addEventListener('click', restartGame);
+
+    // Botón "Explorar la teoría"
+    document.getElementById('exploreTheoryBtn').addEventListener('click', () => {
+        document.getElementById('theory').scrollIntoView({ behavior: 'smooth' });
+    });
+}
+
+/* ========================================
+   VISUALIZACIÓN DE FIGURAS GEOMÉTRICAS
+   ======================================== */
+function drawShapeGuide(shapeName) {
+    const shape = geometricShapes[shapeName];
+    if (!shape) return;
+
+    // Limpiar canvas
+    shapeCtx.clearRect(0, 0, shapeCanvas.width, shapeCanvas.height);
+
+    // Configurar estilo
+    shapeCtx.strokeStyle = '#00ffff';
+    shapeCtx.lineWidth = 3;
+    shapeCtx.lineCap = 'round';
+    shapeCtx.shadowBlur = 10;
+    shapeCtx.shadowColor = '#00ffff';
+    shapeCtx.fillStyle = '#00ffff';
+
+    // Mapeo de posiciones del numpad a coordenadas del canvas
+    const positions = {
+        '1': { x: 50, y: 50 },
+        '2': { x: 100, y: 50 },
+        '3': { x: 150, y: 50 },
+        '4': { x: 50, y: 100 },
+        '5': { x: 100, y: 100 },
+        '6': { x: 150, y: 100 },
+        '7': { x: 50, y: 150 },
+        '8': { x: 100, y: 150 },
+        '9': { x: 150, y: 150 },
+        '0': { x: 100, y: 175 }
+    };
+
+    // Dibujar líneas
+    shapeCtx.beginPath();
+    const pattern = shape.pattern;
+    const startPos = positions[pattern[0]];
+    shapeCtx.moveTo(startPos.x, startPos.y);
+
+    for (let i = 1; i < pattern.length; i++) {
+        const pos = positions[pattern[i]];
+        shapeCtx.lineTo(pos.x, pos.y);
+    }
+    shapeCtx.stroke();
+
+    // Dibujar puntos
+    pattern.forEach((num, index) => {
+        const pos = positions[num];
+        shapeCtx.beginPath();
+        shapeCtx.arc(pos.x, pos.y, 6, 0, Math.PI * 2);
+        shapeCtx.fill();
+
+        // Numerar el orden
+        shapeCtx.fillStyle = '#000';
+        shapeCtx.font = 'bold 12px Arial';
+        shapeCtx.textAlign = 'center';
+        shapeCtx.textBaseline = 'middle';
+        shapeCtx.fillText((index + 1).toString(), pos.x, pos.y);
+        shapeCtx.fillStyle = '#00ffff';
+    });
+
+    // Actualizar nombre
+    document.getElementById('shapeName').textContent = shape.name;
 }
 
 /* ========================================
@@ -143,6 +412,14 @@ function initializeButtons() {
    ======================================== */
 function handleKeyPress(num) {
     const currentStepData = gameSteps[gameState.currentStep];
+
+    // Reproducir sonido con frecuencia basada en la tecla
+    const frequencies = {
+        '1': 261.63, '2': 293.66, '3': 329.63,
+        '4': 349.23, '5': 392.00, '6': 440.00,
+        '7': 493.88, '8': 523.25, '9': 587.33, '0': 261.63
+    };
+    playKeySound(frequencies[num]);
 
     // Agregar número a la contraseña
     gameState.password += num;
@@ -280,8 +557,13 @@ function updateStrengthMeter() {
     const crackTimeDisplay = document.getElementById('crackTime');
 
     // Encontrar datos de tiempo correspondientes
-    const data = crackTimes.find(item => item.length === length) ||
-                 crackTimes[crackTimes.length - 1];
+    let data = crackTimes.find(item => item.length === length);
+    if (!data && length > 20) {
+        data = { ...crackTimes[crackTimes.length - 1], level: 100 };
+    }
+    if (!data) {
+        data = crackTimes[0];
+    }
 
     // Actualizar barra
     const percentage = Math.min(data.level, 100);
@@ -303,6 +585,9 @@ function updateStrengthMeter() {
         color = '#ffff00';
     } else if (length < 12) {
         strengthLevel = 'Buena';
+        color = '#00ff88';
+    } else if (length < 15) {
+        strengthLevel = 'Muy Buena';
         color = '#00ff88';
     } else {
         strengthLevel = 'Excelente';
@@ -330,6 +615,15 @@ function updateInstructions() {
     const step = gameSteps[gameState.currentStep];
     document.getElementById('instructionTitle').innerHTML = step.title;
     document.getElementById('instructionText').innerHTML = step.instruction;
+
+    // Mostrar u ocultar guía de figura
+    const shapeGuide = document.getElementById('shapeGuide');
+    if (step.showShape && step.shape) {
+        shapeGuide.style.display = 'block';
+        drawShapeGuide(step.shape);
+    } else {
+        shapeGuide.style.display = 'none';
+    }
 }
 
 function showFeedback(message, type = 'info') {
@@ -357,14 +651,16 @@ function showFeedback(message, type = 'info') {
 }
 
 /* ========================================
-   LÓGICA DEL JUEGO - PASO 1: ENTRENAMIENTO
+   LÓGICA DEL JUEGO - ENTRENAMIENTO
    ======================================== */
 function checkTrainingPattern() {
-    const expected = gameSteps[0].expectedPattern;
+    const expected = gameSteps[gameState.currentStep].expectedPattern;
     const current = gameState.pattern;
 
     if (current.length > expected.length) {
-        showFeedback('❌ Has presionado demasiadas teclas. Intenta de nuevo con 1-3-9-7.', 'error');
+        playErrorSound();
+        const shapeName = geometricShapes[gameSteps[gameState.currentStep].shape].name;
+        showFeedback(`❌ Has presionado demasiadas teclas. El ${shapeName} solo requiere ${expected.length} toques.`, 'error');
         setTimeout(clearPattern, 2000);
         return;
     }
@@ -372,7 +668,8 @@ function checkTrainingPattern() {
     // Verificar si coincide hasta ahora
     for (let i = 0; i < current.length; i++) {
         if (current[i] !== expected[i]) {
-            showFeedback('❌ Secuencia incorrecta. Recuerda: 1-3-9-7 forma un cuadrado.', 'error');
+            playErrorSound();
+            showFeedback('❌ Secuencia incorrecta. Observa la figura guía y sigue el orden indicado.', 'error');
             setTimeout(clearPattern, 2000);
             return;
         }
@@ -380,21 +677,23 @@ function checkTrainingPattern() {
 
     // Si completó el patrón correctamente
     if (current.length === expected.length) {
+        playSuccessSound();
+        const shapeName = geometricShapes[gameSteps[gameState.currentStep].shape].name;
         showFeedback(
-            '⚠️ Contraseña generada: <strong>1397</strong>. ' +
-            'Tiempo para descifrarla: <span style="color: var(--danger-red)">¡Instantáneo!</span> ' +
-            'Necesitamos algo más fuerte, agente.',
-            'warning'
+            `✅ ¡Perfecto! Has dibujado el ${shapeName} correctamente. ` +
+            `Contraseña: <strong>${gameState.password}</strong>. ` +
+            `Tiempo para descifrar: <strong>${crackTimes.find(c => c.length === current.length)?.time || 'Bajo'}</strong>.`,
+            'success'
         );
         document.getElementById('nextBtn').style.display = 'block';
     }
 }
 
 /* ========================================
-   LÓGICA DEL JUEGO - PASO 2: CREACIÓN
+   LÓGICA DEL JUEGO - CREACIÓN
    ======================================== */
 function checkCreationProgress() {
-    const minLength = gameSteps[1].minLength;
+    const minLength = gameSteps[gameState.currentStep].minLength;
     const currentLength = gameState.password.length;
 
     if (currentLength >= minLength) {
@@ -404,14 +703,14 @@ function checkCreationProgress() {
         showFeedback(
             `✅ ¡Excelente! Tu contraseña tiene ${currentLength} dígitos. ` +
             `Tiempo estimado para descifrarla: <strong style="color: var(--success-green)">${data.time}</strong>. ` +
-            `¡Eso es poder! Cuando estés satisfecho, presiona "Siguiente".`,
+            `Cuando estés satisfecho, presiona "Siguiente".`,
             'success'
         );
         document.getElementById('nextBtn').style.display = 'block';
     } else {
         const remaining = minLength - currentLength;
         showFeedback(
-            `Sigue creando tu patrón. Necesitas al menos ${remaining} dígitos más para alcanzar el objetivo de 12.`,
+            `Sigue creando tu patrón. Necesitas al menos ${remaining} dígitos más para alcanzar el objetivo de ${minLength}.`,
             'info'
         );
         document.getElementById('nextBtn').style.display = 'none';
@@ -419,13 +718,14 @@ function checkCreationProgress() {
 }
 
 /* ========================================
-   LÓGICA DEL JUEGO - PASO 3: VERIFICACIÓN
+   LÓGICA DEL JUEGO - VERIFICACIÓN
    ======================================== */
 function checkVerificationPattern() {
     const expected = gameState.savedPattern;
     const current = gameState.pattern;
 
     if (current.length > expected.length) {
+        playErrorSound();
         showFeedback('❌ Esa no es tu secuencia. Intenta de nuevo.', 'error');
         setTimeout(clearPattern, 2000);
         return;
@@ -434,6 +734,7 @@ function checkVerificationPattern() {
     // Verificar si coincide hasta ahora
     for (let i = 0; i < current.length; i++) {
         if (current[i] !== expected[i]) {
+            playErrorSound();
             showFeedback('❌ Secuencia incorrecta. Concéntrate en recordar el movimiento, no los números.', 'error');
             setTimeout(clearPattern, 2000);
             return;
@@ -442,6 +743,7 @@ function checkVerificationPattern() {
 
     // Si completó el patrón correctamente
     if (current.length === expected.length) {
+        playSuccessSound();
         showFeedback(
             '🎉 ¡Misión Cumplida! Has demostrado que la memoria geométrica es superior. ' +
             '<strong>No recordaste los números, ¡recordaste el movimiento!</strong>',
@@ -460,8 +762,8 @@ function checkVerificationPattern() {
    NAVEGACIÓN ENTRE PASOS
    ======================================== */
 function nextStep() {
-    // Guardar patrón si es el paso de creación
-    if (gameState.currentStep === 1) {
+    // Guardar patrón si es el penúltimo paso (antes de verificación)
+    if (gameState.currentStep === gameSteps.length - 2) {
         gameState.savedPassword = gameState.password;
         gameState.savedPattern = [...gameState.pattern];
     }
@@ -494,6 +796,9 @@ function nextStep() {
 
     // Ocultar botón siguiente
     document.getElementById('nextBtn').style.display = 'none';
+
+    // Scroll suave al desafío
+    document.getElementById('challenge').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function restartGame() {
@@ -514,68 +819,4 @@ function restartGame() {
 
     // Scroll al inicio del desafío
     document.getElementById('challenge').scrollIntoView({ behavior: 'smooth' });
-}
-
-/* ========================================
-   UTILIDADES
-   ======================================== */
-
-// Efecto de typing para textos importantes
-function typeWriter(element, text, speed = 50) {
-    let i = 0;
-    element.innerHTML = '';
-
-    function type() {
-        if (i < text.length) {
-            element.innerHTML += text.charAt(i);
-            i++;
-            setTimeout(type, speed);
-        }
-    }
-
-    type();
-}
-
-// Partículas de éxito (opcional)
-function createSuccessParticles() {
-    const colors = ['#00ffff', '#ff00ff', '#39ff14', '#00d4ff'];
-    const container = document.querySelector('.success-animation');
-
-    for (let i = 0; i < 50; i++) {
-        const particle = document.createElement('div');
-        particle.style.position = 'absolute';
-        particle.style.width = '10px';
-        particle.style.height = '10px';
-        particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-        particle.style.borderRadius = '50%';
-        particle.style.left = '50%';
-        particle.style.top = '50%';
-        particle.style.pointerEvents = 'none';
-
-        container.appendChild(particle);
-
-        const angle = (Math.PI * 2 * i) / 50;
-        const velocity = 2 + Math.random() * 3;
-
-        let x = 0;
-        let y = 0;
-        let opacity = 1;
-
-        function animate() {
-            x += Math.cos(angle) * velocity;
-            y += Math.sin(angle) * velocity;
-            opacity -= 0.02;
-
-            particle.style.transform = `translate(${x}px, ${y}px)`;
-            particle.style.opacity = opacity;
-
-            if (opacity > 0) {
-                requestAnimationFrame(animate);
-            } else {
-                particle.remove();
-            }
-        }
-
-        animate();
-    }
 }
