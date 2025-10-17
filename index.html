@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Geometry Bash: Aprende a crear contraseñas seguras usando patrones geométricos. Un proyecto educativo del CCM-UNAM y ADRC.">
+    <title>Geometry Bash: Desafío de Contraseñas Geométricas</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Sección 1: La Misión -->
+    <section id="mission" class="section mission-section">
+        <div class="cyber-grid"></div>
+        <div class="container">
+            <div class="logo-container">
+                <div class="logo-placeholder">CCM-UNAM</div>
+                <div class="logo-placeholder">ADRC</div>
+            </div>
+
+            <h1 class="main-title glitch" data-text="GEOMETRY BASH">
+                GEOMETRY BASH
+            </h1>
+            <h2 class="subtitle">
+                ¡Desafío de Contraseñas Geométricas!
+            </h2>
+
+            <div class="tagline">
+                <span class="neon-text">¿Tu contraseña es segura?</span>
+                <span>Descubre cómo la geometría puede ser tu mejor aliada.</span>
+            </div>
+
+            <div class="info-cards">
+                <div class="info-card danger-card">
+                    <div class="card-icon">⚠️</div>
+                    <h3>El Riesgo</h3>
+                    <p>
+                        Contraseñas como <span class="weak-password">"123456"</span> o
+                        <span class="weak-password">"password"</span> son inútiles.
+                        Los ataques de fuerza bruta pueden probar <strong>millones de combinaciones por segundo</strong>,
+                        descubriendo contraseñas simples en menos de un parpadeo.
+                    </p>
+                </div>
+
+                <div class="info-card solution-card">
+                    <div class="card-icon">🧮</div>
+                    <h3>La Solución Matemática</h3>
+                    <p>
+                        En lugar de memorizar números, vamos a <strong>memorizar formas</strong>.
+                        Tu cerebro es increíble para recordar patrones y movimientos.
+                        Usaremos el <span class="highlight">poder de la geometría</span> para crear
+                        claves casi imposibles de romper, ¡pero fáciles de recordar para ti!
+                    </p>
+                </div>
+
+                <div class="info-card creators-card">
+                    <div class="card-icon">👨‍🔬</div>
+                    <h3>Los Creadores</h3>
+                    <p class="creators">
+                        <strong>León René Hinojosa Hierro</strong><br>
+                        <strong>Leonardo David Saucedo León</strong>
+                    </p>
+                    <p class="institutions">
+                        Centro de Ciencias Matemáticas - UNAM<br>
+                        Asociación para la Divulgación Recreativa de las Ciencias
+                    </p>
+                </div>
+            </div>
+
+            <button id="startBtn" class="cta-button">
+                <span class="button-content">
+                    ¡Aceptar el Reto! 🚀
+                </span>
+                <span class="button-glow"></span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Sección 2: El Desafío -->
+    <section id="challenge" class="section challenge-section">
+        <div class="cyber-grid"></div>
+        <div class="container">
+            <h2 class="section-title">El Desafío</h2>
+
+            <div id="gameContainer" class="game-container">
+                <!-- Instrucciones dinámicas -->
+                <div id="instructions" class="instructions">
+                    <h3 id="instructionTitle">Preparando la misión...</h3>
+                    <p id="instructionText">Cargando sistema de seguridad...</p>
+                </div>
+
+                <!-- Área principal del juego -->
+                <div class="game-area">
+                    <!-- Teclado numérico -->
+                    <div class="numpad-container">
+                        <canvas id="patternCanvas"></canvas>
+                        <div id="numpad" class="numpad">
+                            <button class="num-key" data-num="1">1</button>
+                            <button class="num-key" data-num="2">2</button>
+                            <button class="num-key" data-num="3">3</button>
+                            <button class="num-key" data-num="4">4</button>
+                            <button class="num-key" data-num="5">5</button>
+                            <button class="num-key" data-num="6">6</button>
+                            <button class="num-key" data-num="7">7</button>
+                            <button class="num-key" data-num="8">8</button>
+                            <button class="num-key" data-num="9">9</button>
+                            <button class="num-key empty"></button>
+                            <button class="num-key" data-num="0">0</button>
+                            <button class="num-key empty"></button>
+                        </div>
+                    </div>
+
+                    <!-- Panel de análisis -->
+                    <div class="analysis-panel">
+                        <h3 class="panel-title">Análisis de Seguridad</h3>
+
+                        <div class="password-display">
+                            <label>Contraseña Generada:</label>
+                            <div id="passwordOutput" class="password-output">****</div>
+                            <div id="passwordLength" class="password-length">Longitud: 0</div>
+                        </div>
+
+                        <div class="strength-meter">
+                            <label>Nivel de Fortaleza:</label>
+                            <div class="strength-bar-container">
+                                <div id="strengthBar" class="strength-bar"></div>
+                            </div>
+                            <div id="strengthText" class="strength-text">Sin datos</div>
+                        </div>
+
+                        <div class="crack-time">
+                            <label>Tiempo para descifrar:</label>
+                            <div id="crackTime" class="crack-time-value">--</div>
+                        </div>
+
+                        <div id="feedback" class="feedback"></div>
+
+                        <div class="action-buttons">
+                            <button id="clearBtn" class="action-btn clear-btn">
+                                <span>🗑️ Borrar</span>
+                            </button>
+                            <button id="nextBtn" class="action-btn next-btn" style="display: none;">
+                                <span>Siguiente ➡️</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección de conclusión -->
+                <div id="conclusion" class="conclusion" style="display: none;">
+                    <div class="success-animation">
+                        <div class="success-icon">🎉</div>
+                        <h2>¡Misión Cumplida!</h2>
+                        <p class="success-message">
+                            Has demostrado que la memoria geométrica es superior.
+                            No recordaste los números, <strong>¡recordaste el movimiento!</strong>
+                        </p>
+                    </div>
+
+                    <div class="final-tips">
+                        <h3>Consejos Finales para Proteger tu Vida Digital</h3>
+                        <ul class="tips-list">
+                            <li>
+                                <span class="tip-icon">✅</span>
+                                <span>Usa mayúsculas, minúsculas, números y símbolos para multiplicar la fuerza.</span>
+                            </li>
+                            <li>
+                                <span class="tip-icon">✅</span>
+                                <span>Activa la verificación de dos pasos siempre que sea posible.</span>
+                            </li>
+                            <li>
+                                <span class="tip-icon">✅</span>
+                                <span>Utiliza un gestor de contraseñas para guardar tus patrones únicos.</span>
+                            </li>
+                            <li>
+                                <span class="tip-icon">✅</span>
+                                <span>¡Nunca compartas tus contraseñas!</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <button id="restartBtn" class="cta-button">
+                        <span class="button-content">
+                            🔄 Intentar Nuevamente
+                        </span>
+                        <span class="button-glow"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
