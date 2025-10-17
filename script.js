@@ -62,7 +62,7 @@ const geometricShapes = {
 const gameSteps = [
     {
         title: 'Nivel 1 - "El Cuadrado Básico"',
-        instruction: 'Comencemos con algo simple. Dibuja un <strong>CUADRADO</strong> en el teclado.<br>Sigue el patrón mostrado arriba.',
+        instruction: 'Comencemos con algo simple. Dibuja un <strong>CUADRADO</strong> en el teclado.<br>Sigue el patrón mostrado 1, 3, 9, 7, 1.',
         expectedPattern: geometricShapes.square.pattern,
         shape: 'square',
         isTraining: true,
@@ -70,7 +70,7 @@ const gameSteps = [
     },
     {
         title: 'Nivel 2 - "El Triángulo"',
-        instruction: '¡Excelente! Ahora dibuja un <strong>TRIÁNGULO</strong>.<br>Observa la figura objetivo y replica el movimiento.',
+        instruction: '¡Excelente! Ahora dibuja un <strong>TRIÁNGULO</strong>.<br>Observa la figura objetivo y replica el movimiento 2, 7, 3, 2.',
         expectedPattern: geometricShapes.triangle.pattern,
         shape: 'triangle',
         isTraining: true,
@@ -78,7 +78,7 @@ const gameSteps = [
     },
     {
         title: 'Nivel 3 - "La Línea"',
-        instruction: 'Perfecto. Ahora algo más simple: una <strong>LÍNEA VERTICAL</strong> por el centro.',
+        instruction: 'Perfecto. Ahora algo más simple: una <strong>LÍNEA VERTICAL</strong> por el centro 2, 5 , 8.',
         expectedPattern: geometricShapes.line.pattern,
         shape: 'line',
         isTraining: true,
@@ -86,7 +86,7 @@ const gameSteps = [
     },
     {
         title: 'Nivel 4 - "El Zig-Zag"',
-        instruction: 'Aumentamos la complejidad. Dibuja un <strong>ZIG-ZAG</strong> en diagonal.',
+        instruction: 'Aumentamos la complejidad. Dibuja un <strong>ZIG-ZAG</strong> en diagonal 1, 5, 9, 5, 1.',
         expectedPattern: geometricShapes.zigzag.pattern,
         shape: 'zigzag',
         isTraining: true,
@@ -94,7 +94,7 @@ const gameSteps = [
     },
     {
         title: 'Nivel 5 - "La Cruz"',
-        instruction: 'Ahora una figura más compleja: la <strong>CRUZ</strong>. Nota que pasas por el centro varias veces y terminas en el centro.',
+        instruction: 'Ahora una figura más compleja: la <strong>CRUZ</strong>. Nota que pasas por el centro varias veces y terminas en el centro 2, 5, 8, 5, 4, 5, 6, 5',
         expectedPattern: geometricShapes.cross.pattern,
         shape: 'cross',
         isTraining: true,
@@ -102,7 +102,7 @@ const gameSteps = [
     },
     {
         title: 'Nivel 6 - "El Rombo"',
-        instruction: '¡Casi experto! Dibuja un <strong>ROMBO</strong> perfecto.',
+        instruction: '¡Casi experto! Dibuja un <strong>ROMBO</strong> perfecto 2, 4, 8, 6, 2.',
         expectedPattern: geometricShapes.diamond.pattern,
         shape: 'diamond',
         isTraining: true,
@@ -110,7 +110,7 @@ const gameSteps = [
     },
    {
        title: 'Nivel 7 - "Espiral"',
-      instruction: '¡Vámos! Lo estás haciendo bien, ahora intenta con una <strong>ESPIRAL</strong> desde el centro hacia afuera.',
+      instruction: '¡Vámos! Lo estás haciendo bien, ahora intenta con una <strong>ESPIRAL</strong> desde el centro hacia afuera 5, 6, 9, 8, 7, 4, 1, 2, 3, 5.',
       expectedPattern: geometricShapes.spiral.pattern,
       shape: 'spiral',
       isTraining:true,
@@ -118,7 +118,7 @@ const gameSteps = [
     },
     {
         title: 'Nivel 8 - "Cuadrado Doble"',
-        instruction: '¡Probemos si recuerdas los cuadrados... ahora dibuja un <strong>CUADRADO DOBLE</strong>.',
+        instruction: '¡Probemos si recuerdas los cuadrados... ahora dibuja un <strong>CUADRADO DOBLE</strong> 1, 3, 9, 7, 1, 2, 3, 6, 9.',
         expectedPattern: geometricShapes.doubleSquare.pattern,
         shape: 'doubleSquare',
         isTraining:true,
