@@ -1,5 +1,5 @@
 /* ========================================
-   GEOMETRY BASH - JUEGO INTERACTIVO V3
+   GEOMETRY BASH - JUEGO INTERACTIVO V2
    ======================================== */
 
 // Estado del juego
@@ -62,7 +62,7 @@ const geometricShapes = {
 const gameSteps = [
     {
         title: 'Nivel 1 - "El Cuadrado Básico"',
-        instruction: 'Comencemos con algo simple. Dibuja un <strong>CUADRADO</strong> en el teclado.<br>Sigue el patrón mostrado 1, 3, 9, 7, 1.',
+        instruction: 'Comencemos con algo simple. Dibuja un <strong>CUADRADO</strong> en el teclado.<br>Sigue el patrón mostrado arriba.',
         expectedPattern: geometricShapes.square.pattern,
         shape: 'square',
         isTraining: true,
@@ -70,7 +70,7 @@ const gameSteps = [
     },
     {
         title: 'Nivel 2 - "El Triángulo"',
-        instruction: '¡Excelente! Ahora dibuja un <strong>TRIÁNGULO</strong>.<br>Observa la figura objetivo y replica el movimiento 2, 7, 3, 2.',
+        instruction: '¡Excelente! Ahora dibuja un <strong>TRIÁNGULO</strong>.<br>Observa la figura objetivo y replica el movimiento.',
         expectedPattern: geometricShapes.triangle.pattern,
         shape: 'triangle',
         isTraining: true,
@@ -78,7 +78,7 @@ const gameSteps = [
     },
     {
         title: 'Nivel 3 - "La Línea"',
-        instruction: 'Perfecto. Ahora algo más simple: una <strong>LÍNEA VERTICAL</strong> por el centro 2, 5 , 8.',
+        instruction: 'Perfecto. Ahora algo más simple: una <strong>LÍNEA VERTICAL</strong> por el centro.',
         expectedPattern: geometricShapes.line.pattern,
         shape: 'line',
         isTraining: true,
@@ -86,7 +86,7 @@ const gameSteps = [
     },
     {
         title: 'Nivel 4 - "El Zig-Zag"',
-        instruction: 'Aumentamos la complejidad. Dibuja un <strong>ZIG-ZAG</strong> en diagonal 1, 5, 9, 5, 1.',
+        instruction: 'Aumentamos la complejidad. Dibuja un <strong>ZIG-ZAG</strong> en diagonal.',
         expectedPattern: geometricShapes.zigzag.pattern,
         shape: 'zigzag',
         isTraining: true,
@@ -94,7 +94,7 @@ const gameSteps = [
     },
     {
         title: 'Nivel 5 - "La Cruz"',
-        instruction: 'Ahora una figura más compleja: la <strong>CRUZ</strong>. Nota que pasas por el centro varias veces y terminas en el centro 2, 5, 8, 5, 4, 5, 6, 5',
+        instruction: 'Ahora una figura más compleja: la <strong>CRUZ</strong>. Nota que pasas por el centro varias veces y terminas en el centro.',
         expectedPattern: geometricShapes.cross.pattern,
         shape: 'cross',
         isTraining: true,
@@ -102,7 +102,7 @@ const gameSteps = [
     },
     {
         title: 'Nivel 6 - "El Rombo"',
-        instruction: '¡Casi experto! Dibuja un <strong>ROMBO</strong> perfecto 2, 4, 8, 6, 2.',
+        instruction: '¡Casi experto! Dibuja un <strong>ROMBO</strong> perfecto.',
         expectedPattern: geometricShapes.diamond.pattern,
         shape: 'diamond',
         isTraining: true,
@@ -110,7 +110,7 @@ const gameSteps = [
     },
    {
        title: 'Nivel 7 - "Espiral"',
-      instruction: '¡Vámos! Lo estás haciendo bien, ahora intenta con una <strong>ESPIRAL</strong> desde el centro hacia afuera 5, 6, 9, 8, 7, 4, 1, 2, 3, 5.',
+      instruction: '¡Vámos! Lo estás haciendo bien, ahora intenta con una <strong>ESPIRAL</strong> desde el centro hacia afuera.',
       expectedPattern: geometricShapes.spiral.pattern,
       shape: 'spiral',
       isTraining:true,
@@ -118,7 +118,7 @@ const gameSteps = [
     },
     {
         title: 'Nivel 8 - "Cuadrado Doble"',
-        instruction: '¡Probemos si recuerdas los cuadrados... ahora dibuja un <strong>CUADRADO DOBLE</strong> 1, 3, 9, 7, 1, 2, 3, 6, 9.',
+        instruction: '¡Probemos si recuerdas los cuadrados... ahora dibuja un <strong>CUADRADO DOBLE</strong>.',
         expectedPattern: geometricShapes.doubleSquare.pattern,
         shape: 'doubleSquare',
         isTraining:true,
@@ -393,18 +393,24 @@ function drawShapeGuide(shapeName) {
     shapeCtx.shadowColor = '#00ffff';
     shapeCtx.fillStyle = '#00ffff';
 
-    // USAR LAS MISMAS POSICIONES DINÁMICAS QUE EL NUMPAD REAL
+    // POSICIONES COMO CUADRÍCULA 3x3 NORMALIZADA dentro del canvas
+    const padding = 30; // Espacio desde los bordes
+    const gridWidth = shapeCanvas.width - (padding * 2);
+    const gridHeight = shapeCanvas.height - (padding * 2);
+    const cellWidth = gridWidth / 3;
+    const cellHeight = gridHeight / 3;
+
     const positions = {
-        '1': { x: numpadKeys['1'].x, y: numpadKeys['1'].y },
-        '2': { x: numpadKeys['2'].x, y: numpadKeys['2'].y },
-        '3': { x: numpadKeys['3'].x, y: numpadKeys['3'].y },
-        '4': { x: numpadKeys['4'].x, y: numpadKeys['4'].y },
-        '5': { x: numpadKeys['5'].x, y: numpadKeys['5'].y },
-        '6': { x: numpadKeys['6'].x, y: numpadKeys['6'].y },
-        '7': { x: numpadKeys['7'].x, y: numpadKeys['7'].y },
-        '8': { x: numpadKeys['8'].x, y: numpadKeys['8'].y },
-        '9': { x: numpadKeys['9'].x, y: numpadKeys['9'].y },
-        '0': { x: numpadKeys['0'].x, y: numpadKeys['0'].y }
+        '1': { x: padding + cellWidth * 0.5, y: padding + cellHeight * 0.5 },
+        '2': { x: padding + cellWidth * 1.5, y: padding + cellHeight * 0.5 },
+        '3': { x: padding + cellWidth * 2.5, y: padding + cellHeight * 0.5 },
+        '4': { x: padding + cellWidth * 0.5, y: padding + cellHeight * 1.5 },
+        '5': { x: padding + cellWidth * 1.5, y: padding + cellHeight * 1.5 },
+        '6': { x: padding + cellWidth * 2.5, y: padding + cellHeight * 1.5 },
+        '7': { x: padding + cellWidth * 0.5, y: padding + cellHeight * 2.5 },
+        '8': { x: padding + cellWidth * 1.5, y: padding + cellHeight * 2.5 },
+        '9': { x: padding + cellWidth * 2.5, y: padding + cellHeight * 2.5 },
+        '0': { x: padding + cellWidth * 1.5, y: padding + cellHeight * 3.2 }
     };
 
     // Dibujar líneas
