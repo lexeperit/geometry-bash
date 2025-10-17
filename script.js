@@ -1,5 +1,5 @@
 /* ========================================
-   GEOMETRY BASH - JUEGO INTERACTIVO V2
+   GEOMETRY BASH - JUEGO INTERACTIVO V3
    ======================================== */
 
 // Estado del juego
@@ -290,8 +290,24 @@ function initializeShapeCanvas() {
     shapeCanvas = document.getElementById('shapeCanvas');
     shapeCtx = shapeCanvas.getContext('2d');
 
-    shapeCanvas.width = 200;
-    shapeCanvas.height = 200;
+    // Sincronizar tamaño con el container del numpad
+    const container = document.querySelector('.numpad-container');
+    shapeCanvas.width = container.offsetWidth;
+    shapeCanvas.height = container.offsetHeight;
+
+    // Redibujar cuando cambia el tamaño
+    window.addEventListener('resize', resizeShapeCanvas);
+}
+
+function resizeShapeCanvas() {
+    const container = document.querySelector('.numpad-container');
+    shapeCanvas.width = container.offsetWidth;
+    shapeCanvas.height = container.offsetHeight;
+    
+    const step = gameSteps[gameState.currentStep];
+    if (step.showShape && step.shape) {
+        drawShapeGuide(step.shape);
+    }
 }
 
 function resizeCanvas() {
@@ -377,18 +393,18 @@ function drawShapeGuide(shapeName) {
     shapeCtx.shadowColor = '#00ffff';
     shapeCtx.fillStyle = '#00ffff';
 
-    // Mapeo de posiciones del numpad a coordenadas del canvas
+    // USAR LAS MISMAS POSICIONES DINÁMICAS QUE EL NUMPAD REAL
     const positions = {
-        '1': { x: 50, y: 50 },
-        '2': { x: 100, y: 50 },
-        '3': { x: 150, y: 50 },
-        '4': { x: 50, y: 100 },
-        '5': { x: 100, y: 100 },
-        '6': { x: 150, y: 100 },
-        '7': { x: 50, y: 150 },
-        '8': { x: 100, y: 150 },
-        '9': { x: 150, y: 150 },
-        '0': { x: 100, y: 175 }
+        '1': { x: numpadKeys['1'].x, y: numpadKeys['1'].y },
+        '2': { x: numpadKeys['2'].x, y: numpadKeys['2'].y },
+        '3': { x: numpadKeys['3'].x, y: numpadKeys['3'].y },
+        '4': { x: numpadKeys['4'].x, y: numpadKeys['4'].y },
+        '5': { x: numpadKeys['5'].x, y: numpadKeys['5'].y },
+        '6': { x: numpadKeys['6'].x, y: numpadKeys['6'].y },
+        '7': { x: numpadKeys['7'].x, y: numpadKeys['7'].y },
+        '8': { x: numpadKeys['8'].x, y: numpadKeys['8'].y },
+        '9': { x: numpadKeys['9'].x, y: numpadKeys['9'].y },
+        '0': { x: numpadKeys['0'].x, y: numpadKeys['0'].y }
     };
 
     // Dibujar líneas
